@@ -1,225 +1,225 @@
 .sfera-3d-model-viewer {
-    --model-viewer-selected-color: #3d3c77;
-    --model-viewer-hover-color: #3d3c77;
-    --model-viewer-bg: rgba(53, 53, 53, 0.9);
+  --model-viewer-selected-color: #3d3c77;
+  --model-viewer-hover-color: #3d3c77;
+  --model-viewer-bg: rgba(53, 53, 53, 0.9);
+  --model-viewer-text: #ffffff;
+  --model-viewer-text-hover: #6786b2;
+  --model-viewer-buttons-bg: rgba(53, 53, 53, 0.8);
+
+  &.dark-mode {
+    --model-viewer-selected-color: #6786b2;
+    --model-viewer-hover-color: #6786b2;
+    --model-viewer-bg: rgba(20, 20, 20, 0.9);
     --model-viewer-text: #ffffff;
     --model-viewer-text-hover: #6786b2;
-    --model-viewer-buttons-bg: rgba(53, 53, 53, 0.8);
+    --model-viewer-buttons-bg: #000000;
+  }
 
-    &.dark-mode {
-        --model-viewer-selected-color: #6786b2;
-        --model-viewer-hover-color: #6786b2;
-        --model-viewer-bg: rgba(20, 20, 20, 0.9);
-        --model-viewer-text: #ffffff;
-        --model-viewer-text-hover: #6786b2;
-        --model-viewer-buttons-bg: #000000;
-    }
+  & {
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: stretch;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+  }
 
-    & {
-        display: flex;
-        flex-flow: row nowrap;
-        align-items: stretch;
-        overflow: hidden;
-        width: 100%;
-        height: 100%;
-    }
+  .hierarchy-container::-webkit-scrollbar {
+    width: 8px;
+  }
 
-    .hierarchy-container::-webkit-scrollbar {
-        width: 8px;
-    }
+  .hierarchy-container::-webkit-scrollbar-track {
+    background: var(--model-viewer-text);
+  }
 
-    .hierarchy-container::-webkit-scrollbar-track {
-        background: var(--model-viewer-text);
-    }
+  .hierarchy-container::-webkit-scrollbar-thumb {
+    background-color: color-mix(in srgb,
+        var(--model-viewer-text),
+        var(--model-viewer-bg));
+    border: 2px;
+  }
 
-    .hierarchy-container::-webkit-scrollbar-thumb {
-        background-color: color-mix(in srgb,
-                var(--model-viewer-text),
-                var(--model-viewer-bg));
-        border: 2px;
-    }
+  .hierarchy-container::-webkit-scrollbar-thumb:hover {
+    background-color: var(--model-viewer-selected-color);
+  }
 
-    .hierarchy-container::-webkit-scrollbar-thumb:hover {
-        background-color: var(--model-viewer-selected-color);
-    }
+  .hierarchy-container {
+    flex-shrink: 0;
+    width: 300px;
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 11px;
+    padding-top: 30px;
+    background: var(--model-viewer-bg);
+    color: var(--model-viewer-text);
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
 
-    .hierarchy-container {
-        flex-shrink: 0;
-        width: 300px;
-        font-family: Helvetica, Arial, sans-serif;
-        font-size: 11px;
-        padding-top: 30px;
-        background: var(--model-viewer-bg);
-        color: var(--model-viewer-text);
-        overflow-y: auto;
-        overflow-x: hidden;
-    }
+  .resizer {
+    width: 3px;
+    flex-shrink: 0;
+    cursor: col-resize;
+    background-color: var(--model-viewer-bg);
+    position: relative;
+  }
 
-    .resizer {
-        width: 3px;
-        flex-shrink: 0;
-        cursor: col-resize;
-        background-color: var(--model-viewer-bg);
-        position: relative;
-    }
+  .hierarchy {
+    margin: 0;
+    padding: 0;
+  }
 
-    .hierarchy {
-        margin: 0;
-        padding: 0;
-    }
+  .hierarchy-item {
+    padding: 4px;
+    cursor: pointer;
+  }
 
-    .hierarchy-item {
-        padding: 4px;
-        cursor: pointer;
-    }
+  .model-viewer-container {
+    position: relative;
+    flex-grow: 1;
+    overflow: hidden;
+    /* Prevent content overflow */
+  }
 
-    .model-viewer-container {
-        position: relative;
-        flex-grow: 1;
-        overflow: hidden;
-        /* Prevent content overflow */
-    }
+  .hierarchy-item.active {
+    background-color: var(--model-viewer-selected-color);
+  }
 
-    .hierarchy-item.active {
-        background-color: var(--model-viewer-selected-color);
-    }
+  .hierarchy-item-name.active {
+    background-color: var(--model-viewer-selected-color);
+  }
 
-    .hierarchy-item-name.active {
-        background-color: var(--model-viewer-selected-color);
-    }
+  .child-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-    .child-item {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
+  .expand-button {
+    width: 16px;
+    height: 16px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--hierarchy-container-text);
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .expand-button {
-        width: 16px;
-        height: 16px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        color: var(--hierarchy-container-text);
-        transition:
-            color 0.2s ease,
-            transform 0.2s ease;
-        vertical-align: middle;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .expand-button:hover {
+    color: var(--model-viewer-text-hover);
+  }
 
-    .expand-button:hover {
-        color: var(--model-viewer-text-hover);
-    }
+  .eye-button {
+    width: 12px;
+    height: 12px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--model-viewer-text);
+    transition:
+      color 0.2s ease,
+      transform 0.2s ease;
+    vertical-align: middle;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    .eye-button {
-        width: 12px;
-        height: 12px;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-        color: var(--model-viewer-text);
-        transition:
-            color 0.2s ease,
-            transform 0.2s ease;
-        vertical-align: middle;
-        display: inline-flex;
-        justify-content: center;
-        align-items: center;
-    }
+  .eye-button:hover {
+    color: var(--model-viewer-text-hover);
+  }
 
-    .eye-button:hover {
-        color: var(--model-viewer-text-hover);
-    }
+  .custom-gui {
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    width: auto;
+    padding: 5px;
+    border-radius: 3px;
+    z-index: 10;
+  }
 
-    .custom-gui {
-        position: absolute;
-        bottom: 0px;
-        right: 0px;
-        width: auto;
-        padding: 5px;
-        border-radius: 3px;
-        z-index: 10;
-    }
+  .custom-gui .close-button {
+    display: none !important;
+    /* Completely hide the toggle button */
+  }
 
-    .custom-gui .close-button {
-        display: none !important;
-        /* Completely hide the toggle button */
-    }
+  /*buttons*/
 
-    /*buttons*/
+  body .material-icons {
+    font-size: 16px;
+  }
 
-    body .material-icons {
-        font-size: 16px;
-    }
+  .buttons {
+    position: absolute;
+    background: var(--model-viewer-buttons-bg);
+    color: var(--model-viewer-text);
+    border-radius: 3px;
+    font-size: 11px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+  }
 
-    .buttons {
-        position: absolute;
-        background: var(--model-viewer-buttons-bg);
-        color: var(--model-viewer-text);
-        border-radius: 3px;
-        font-size: 11px;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        z-index: 2;
-    }
+  .buttons:hover {
+    background-color: var(--model-viewer-selected-color);
+  }
 
-    .buttons:hover {
-        background-color: var(--model-viewer-selected-color);
-    }
+  .hierarchyButton {
+    left: 0px;
+    top: 0px;
+    width: 80px;
+    height: 30px;
+  }
 
-    .hierarchyButton {
-        left: 0px;
-        top: 0px;
-        width: 80px;
-        height: 30px;
-    }
+  .uuidsButton {
+    top: 0px;
+    left: 80px;
+    width: 40px;
+    height: 30px;
+    padding: 3px;
+  }
 
-    .uuidsButton {
-        top: 0px;
-        left: 80px;
-        width: 40px;
-        height: 30px;
-        padding: 3px;
-    }
+  .darkModeButton {
+    right: 10px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+  }
 
-    .darkModeButton {
-        right: 10px;
-        top: 10px;
-        width: 30px;
-        height: 30px;
-    }
+  .wireframeButton {
+    right: 42px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+  }
 
-    .wireframeButton {
-        right: 42px;
-        top: 10px;
-        width: 30px;
-        height: 30px;
-    }
+  .autoRotateButton {
+    right: 74px;
+    top: 10px;
+    width: 30px;
+    height: 30px;
+  }
 
-    .autoRotateButton {
-        right: 74px;
-        top: 10px;
-        width: 30px;
-        height: 30px;
-    }
-
-    .statistics {
-        position: absolute;
-        bottom: 10px;
-        right: 10px;
-        padding: 10px;
-        background: var(--model-viewer-text);
-        border: 1px solid var(--model-viewer-text);
-        border-radius: 5px;
-        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        font-family: Arial, sans-serif;
-        font-size: 12px;
-        color: var(--model-viewer-bg);
-        z-index: 1000;
-    }
+  .statistics {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    padding: 10px;
+    background: var(--model-viewer-text);
+    border: 1px solid var(--model-viewer-text);
+    border-radius: 5px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+    font-size: 12px;
+    color: var(--model-viewer-bg);
+    z-index: 1000;
+  }
 }

@@ -1,5 +1,36 @@
 {
+  "name": "@sfera/3d-model-viewer",
+  "description": "A 3D model web viewer for GLB files, featuring a hierarchical view of model components. Provides functionality for toggling visibility, wireframe mode, and auto-rotation, enabling users to explore models interactively.",
+  "version": "1.0.41",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/main.umd.cjs",
+  "module": "./dist/main.js",
+  "types": "./dist/main.d.ts",
+  "exports": {
+    ".": {
+      "sass": "./dist/style.css",
+      "types": "./dist/main.d.ts",
+      "import": "./dist/main.js",
+      "require": "./dist/main.umd.cjs"
+    }
+  },
+  "scripts": {
+    "start": "vite",
+    "build": "tsc && vite build",
+    "deploy": "npm version patch && npm run build && npm publish"
+  },
   "dependencies": {
-    "three": "^0.171.0"
+    "dat.gui": "^0.7.9",
+    "three": "^0.169.0"
+  },
+  "devDependencies": {
+    "@types/dat.gui": "^0.7.13",
+    "@types/three": "^0.169.0",
+    "typescript": "~5.6.3",
+    "vite": "^5.4.11",
+    "vite-plugin-dts": "^4.3.0"
   }
 }

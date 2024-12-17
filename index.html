@@ -3,12 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Model Viewer</title>
+    <title>Model Viewer with Hierarchy</title>
     <link rel="stylesheet" href="styles.css" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/icon?family=Material+Icons"
-    />
   </head>
   <body>
     <style type="text/css">
@@ -18,17 +14,11 @@
       #viewer-container {
         width: 900px;
         height: 500px;
+        background-color: aquamarine;
       }
     </style>
     <div id="viewer-container"></div>
-    <br />
-    <p>
-      <!--<button
-        onclick="document.querySelector('#viewer-container').classList.toggle('dark-mode')"
-      >
-        toggle dark mode
-      </button>-->
-    </p>
-    <script type="module" src="/src/demo.js"></script>
+
+    <script type="module" src="/src/demo.ts"></script>
   </body>
 </html>

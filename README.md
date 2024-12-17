@@ -1,2 +1,8 @@
-# ModelViewer
- 3D model viewer 
+Development
+`npm start`
+
+Build
+`npm run build`
+
+Deployment
+`npm run deploy`
