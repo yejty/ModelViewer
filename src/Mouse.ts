@@ -83,111 +83,111 @@ class Mouse {
         this.changeMaterialColor(clickedObject.uuid);
         this.addToUUIDS(clickedObject);
         if (itemElement) {
-          itemElement.classList.add("active");
-          this.rollToHierarchyItem(itemElement);
-          itemElement.scrollIntoView({ block: "center" });
-          //itemElement.focus({ preventScroll: true });
+            itemElement.classList.add("active");
+            this.rollToHierarchyItem(itemElement);
+            itemElement.scrollIntoView({ block: "center" });
+            //itemElement.focus({ preventScroll: true });
         }
-      }
-    
-      handleDivClick(itemElement: HTMLElement, object: any) {
+    }
+
+    handleDivClick(itemElement: HTMLElement, object: any) {
         itemElement.addEventListener("click", (event: any) => {
-          const isEyeButton = event.target.closest(".eye-button");
-          if (isEyeButton) {
-            return;
-          }
-          const isActive = itemElement.classList.contains("active");
-          const isCmdOrCtrlPressed = event.metaKey || event.ctrlKey;
-          if (isActive) {
-            if (!isCmdOrCtrlPressed) {
-              this.deselectAll();
-              this.selectObjectAndItsChildren(itemElement, object);
+            const isEyeButton = event.target.closest(".eye-button");
+            if (isEyeButton) {
+                return;
+            }
+            const isActive = itemElement.classList.contains("active");
+            const isCmdOrCtrlPressed = event.metaKey || event.ctrlKey;
+            if (isActive) {
+                if (!isCmdOrCtrlPressed) {
+                    this.deselectAll();
+                    this.selectObjectAndItsChildren(itemElement, object);
+                } else {
+                    this.deselectObjectAndItsChildren(itemElement, object);
+                }
             } else {
-              this.deselectObjectAndItsChildren(itemElement, object);
+                if (!isCmdOrCtrlPressed) {
+                    this.deselectAll();
+                }
+                this.selectObjectAndItsChildren(itemElement, object);
             }
-          } else {
-            if (!isCmdOrCtrlPressed) {
-              this.deselectAll();
-            }
-            this.selectObjectAndItsChildren(itemElement, object);
-          }
         });
-      }
-    
-      deselectAll() {
+    }
+
+    deselectAll() {
         this.removeActiveAll();
         this.resetMaterialAll();
         this.makeEmptyUUIDS();
-      }
-    
-      rollToHierarchyItem(div: HTMLElement) {
+    }
+
+    rollToHierarchyItem(div: HTMLElement) {
         let currentDiv: HTMLElement | null = div;
         while (currentDiv) {
-          const parentDiv = currentDiv.parentElement?.previousElementSibling;
-          if (parentDiv && parentDiv.classList.contains("hierarchy-item")) {
-            const expandButton = parentDiv.querySelector<HTMLElement>(".expand-button");
-            //console.log(expandButton)
-            if (expandButton) {
-              expandButton.innerHTML = '<i class="material-icons">keyboard_arrow_down</i>';
-              expandButton.title = "Collapse hierarchy";
+            const parentDiv = currentDiv.parentElement?.previousElementSibling;
+            if (parentDiv && parentDiv.classList.contains("hierarchy-item")) {
+                const expandButton = parentDiv.querySelector<HTMLElement>(".expand-button");
+                //console.log(expandButton)
+                if (expandButton) {
+                    expandButton.innerHTML = '<i class="material-icons">keyboard_arrow_down</i>';
+                    expandButton.title = "Collapse hierarchy";
+                }
+                const childContainer = parentDiv.nextElementSibling;
+                if (childContainer && childContainer instanceof HTMLElement) {
+                    childContainer.style.display = "block"; // Ensure the child container is expanded
+                }
+                currentDiv = parentDiv as HTMLElement;
+            } else {
+                break; // Stop if no valid parentDiv found
             }
-            const childContainer = parentDiv.nextElementSibling;
-            if (childContainer && childContainer instanceof HTMLElement) {
-              childContainer.style.display = "block"; // Ensure the child container is expanded
-            }
-            currentDiv = parentDiv as HTMLElement;
-          } else {
-            break; // Stop if no valid parentDiv found
-          }
         }
-      }
-    
-      resetMaterial(object: any) {
+    }
+
+    resetMaterial(object: any) {
         if (object.isMesh) {
-          const originalMaterial = this.originalMaterials[object.name];
-          if (originalMaterial) {
-            object.material = originalMaterial;
-          }
+            const originalMaterial = this.originalMaterials[object.name];
+            if (originalMaterial) {
+                object.material = originalMaterial;
+            }
         }
-      }
-    
-      selectObjectAndItsChildren(itemElement: HTMLElement, object: any) {
+    }
+
+    selectObjectAndItsChildren(itemElement: HTMLElement, object: any) {
         if (!itemElement || !object) return;
         itemElement.classList.add("active");
         this.changeMaterialColor(object.uuid);
         this.addToUUIDS(object);
-    
+
         object.traverse((childObject: any) => {
-          if (childObject !== object) {
-            const childItemElement = this.findDivByUUID(childObject.uuid, this.UUID_DIV_MAP);
-            if (childItemElement) {
-              childItemElement.classList.add("active");
-              this.changeMaterialColor(childObject.uuid);
-              this.addToUUIDS(childObject);
+            if (childObject !== object) {
+                const childItemElement = this.findDivByUUID(childObject.uuid, this.UUID_DIV_MAP);
+                if (childItemElement) {
+                    childItemElement.classList.add("active");
+                    this.changeMaterialColor(childObject.uuid);
+                    this.addToUUIDS(childObject);
+                }
             }
-          }
         });
-      }
-    
-      deselectObjectAndItsChildren(itemElement: HTMLElement, object: any) {
+    }
+
+    deselectObjectAndItsChildren(itemElement: HTMLElement, object: any) {
         if (!itemElement || !object) return;
         itemElement.classList.remove("active");
         this.resetMaterial(object);
         this.removeFromUUIDS(object);
-    
+
         object.traverse((childObject: any) => {
-          if (childObject !== object) {
-            const childItemElement = this.findDivByUUID(childObject.uuid, this.UUID_DIV_MAP);
-            if (childItemElement) {
-              childItemElement.classList.remove("active");
-              this.resetMaterial(childObject);
-              this.removeFromUUIDS(childObject);
+            if (childObject !== object) {
+                const childItemElement = this.findDivByUUID(childObject.uuid, this.UUID_DIV_MAP);
+                if (childItemElement) {
+                    childItemElement.classList.remove("active");
+                    this.resetMaterial(childObject);
+                    this.removeFromUUIDS(childObject);
+                }
             }
-          }
         });
-      }
-    
-      addHierarchyButton() {
+    }
+
+    addHierarchyButton() {
         const hierarchyButton = document.createElement("button");
         hierarchyButton.classList.add("hierarchyButton");
         hierarchyButton.classList.add("buttons");
@@ -195,22 +195,22 @@ class Mouse {
         hierarchyButton.title = "Show hierarchy";
         this.container.appendChild(hierarchyButton);
         hierarchyButton.addEventListener("click", () => this.toggleHierarchy());
-      }
-    
-      toggleHierarchy() {
+    }
+
+    toggleHierarchy() {
         if (this.isHierarchyVisible) {
-          this.hierarchyContainer.style.display = "none";
-          this.hierarchyContainer.innerHTML = "";
-          this.isHierarchyVisible = false;
+            this.hierarchyContainer.style.display = "none";
+            this.hierarchyContainer.innerHTML = "";
+            this.isHierarchyVisible = false;
         } else {
-          this.hierarchyContainer.style.display = "block";
-          this.traverseHierarchy(this.model, this.hierarchyContainer, 0);
-          this.hierarchyContainer.style.width = "300px";
-          this.onResize();
-          this.updateCanvasWidth();
-          this.isHierarchyVisible = true;
+            this.hierarchyContainer.style.display = "block";
+            this.traverseHierarchy(this.model, this.hierarchyContainer, 0);
+            this.hierarchyContainer.style.width = "300px";
+            this.onResize();
+            this.updateCanvasWidth();
+            this.isHierarchyVisible = true;
         }
         this.initResizer();
-      }
-    
+    }
+
 }
