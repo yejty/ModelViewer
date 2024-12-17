@@ -17,7 +17,14 @@
       }
     </style>
     <div id="viewer-container"></div>
-
-    <script type="module" src="/src/demo.ts"></script>
+    <!--<script type="module" src="/src/demo.ts"></script>-->
+    <script type="module">
+      import { ModelScene } from './src/ModelScene.ts';
+      const scene = new ModelScene("viewer-container");
+      scene.loadModel("./models/10_inch_6_jaw_chuck.glb");
+      scene.modelViewerContainer.appendChild(scene.renderer.domElement);
+      scene.renderer.setSize(scene.modelViewerContainer.clientWidth, scene.modelViewerContainer.clientHeight);
+      
+  </script>
   </body>
 </html>
